@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🖤 Misión Secreta — Para ti</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   VARIABLES & RESET
+═══════════════════════════════════════════════ */
+:root {
+  --bg:        #0c0a14;
+  --surface:   #13101f;
+  --surface2:  #1c1730;
+  --border:    rgba(180,120,255,0.18);
+  --purple:    #9d4edd;
+  --lavender:  #c77dff;
+  --pink:      #ff6eb4;
+  --hotpink:   #ff2d78;
+  --skull:     #e0c8ff;
+  --text:      #f0e6ff;
+  --muted:     #8b7aaa;
+  --success:   #4ade80;
+  --error:     #ff4d6d;
+  --glow-p:    rgba(157,78,221,0.35);
+  --glow-pk:   rgba(255,110,180,0.35);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23c77dff' opacity='0.8'/%3E%3C/svg%3E") 12 12, auto;
+}
+
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(157,78,221,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157,78,221,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  0%   { background-position: 0 0; }
+  100% { background-position: 48px 48px; }
+}
+
+body::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 20%, rgba(157,78,221,0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 40% at 80% 80%, rgba(255,110,180,0.10) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+
+#particles { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.pt {
+  position: absolute;
+  font-size: var(--fs, 18px);
+  opacity: 0;
+  animation: ptFloat var(--dur, 12s) var(--delay, 0s) ease-in-out infinite;
+  user-select: none;
+}
+@keyframes ptFloat {
+  0%   { opacity: 0;    transform: translateY(110vh) rotate(0deg); }
+  10%  { opacity: 0.15; }
+  90%  { opacity: 0.15; }
+  100% { opacity: 0;    transform: translateY(-10vh) rotate(360deg); }
+}
+
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 56px 24px 120px;
+}
+
+
+.hero {
+  text-align: center;
+  margin-bottom: 48px;
+  animation: heroIn 1s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes heroIn {
+  from { opacity: 0; transform: translateY(-32px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: .75rem;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--lavender);
+  margin-bottom: 24px;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2.4rem, 9vw, 4.2rem);
+  font-weight: 800;
+  line-height: 1.05;
+  margin-bottom: 16px;
+  letter-spacing: -.02em;
+}
+
+.hero h1 .line1 {
+  display: block;
+  background: linear-gradient(135deg, #fff 0%, var(--lavender) 50%, var(--pink) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.hero h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--pink) 0%, var(--hotpink) 60%, var(--lavender) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  font-style: italic;
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: .95rem;
+  max-width: 440px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+
+.img-slot {
+  position: relative;
+  margin: 0 auto 52px;
+  max-width: 520px;
+  border-radius: 24px;
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+  box-shadow: 0 0 60px var(--glow-p);
+  animation: heroIn 1.2s cubic-bezier(.16,1,.3,1) .15s both;
+}
+
+/* ─── INSTRUCCIÓN: reemplaza el src con tu imagen ─── */
+.img-slot img {
+  width: 100%;
+  display: block;
+  object-fit: cover;
+  max-height: 340px;
+}
+
+/* Placeholder si no hay imagen */
+.img-placeholder {
+  width: 100%;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--surface2);
+  color: var(--muted);
+  font-size: .85rem;
+  letter-spacing: .05em;
+}
+.img-placeholder .ph-icon { font-size: 2.5rem; opacity: .5; }
+
+.img-slot::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+  pointer-events: none;
+}
+
+
+.progress-area {
+  margin-bottom: 40px;
+  animation: heroIn 1s .3s both;
+}
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.progress-header span {
+  font-size: .78rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.progress-header strong { color: var(--lavender); }
+
+.track {
+  height: 6px;
+  background: var(--surface2);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--purple), var(--pink));
+  border-radius: 999px;
+  transition: width .7s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 0 12px var(--glow-pk);
+}
+
+
+.cards { display: flex; flex-direction: column; gap: 16px; }
+
+.card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: border-color .3s, box-shadow .3s, opacity .4s, filter .4s;
+  animation: cardIn .6s cubic-bezier(.16,1,.3,1) both;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.card:nth-child(1) { animation-delay: .4s; }
+.card:nth-child(2) { animation-delay: .5s; }
+.card:nth-child(3) { animation-delay: .6s; }
+.card:nth-child(4) { animation-delay: .7s; }
+.card:nth-child(5) { animation-delay: .8s; }
+.card:nth-child(6) { animation-delay: .9s; }
+
+.card:hover:not(.locked) { border-color: rgba(199,125,255,.4); box-shadow: 0 8px 32px var(--glow-p); }
+.card.solved { border-color: rgba(74,222,128,.4); box-shadow: 0 0 20px rgba(74,222,128,.15); }
+.card.locked { opacity: .35; filter: blur(3px); pointer-events: none; }
+
+
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+}
+.card-head:hover { background: rgba(255,255,255,.02); }
+
+.step-badge {
+  font-family: 'Syne', sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  color: var(--lavender);
+  letter-spacing: .02em;
+  transition: background .3s, border-color .3s, color .3s;
+}
+.card.solved .step-badge { background: rgba(74,222,128,.15); border-color: rgba(74,222,128,.5); color: var(--success); }
+
+.card-title-wrap { flex: 1; }
+.card-title-wrap h3 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.card-title-wrap p { font-size: .78rem; color: var(--muted); }
+
+.chevron {
+  font-size: 1rem;
+  color: var(--muted);
+  transition: transform .3s;
+  flex-shrink: 0;
+}
+.card.open .chevron { transform: rotate(180deg); }
+
+
+.card-body {
+  display: none;
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--border);
+}
+.card.open .card-body { display: block; }
+
+.riddle-text {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: var(--skull);
+  margin: 20px 0 16px;
+  padding: 18px 20px;
+  background: var(--surface2);
+  border-radius: 14px;
+  border-left: 3px solid var(--purple);
+}
+
+.hint {
+  font-size: .82rem;
+  color: var(--muted);
+  font-style: italic;
+  margin-bottom: 18px;
+  padding: 10px 14px;
+  background: rgba(157,78,221,.07);
+  border-radius: 10px;
+  border: 1px solid rgba(157,78,221,.15);
+}
+.hint span { color: var(--lavender); font-style: normal; }
+
+.input-row {
+  display: flex;
+  gap: 10px;
+}
+
+.ans-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.ans-input::placeholder { color: var(--muted); }
+.ans-input:focus { border-color: var(--lavender); box-shadow: 0 0 0 3px rgba(199,125,255,.12); }
+.ans-input.err { border-color: var(--error); animation: shake .4s ease; }
+.ans-input:disabled { opacity: .5; }
+
+@keyframes shake {
+  0%,100%{ transform:translateX(0); }
+  25%    { transform:translateX(-7px); }
+  75%    { transform:translateX(7px); }
+}
+
+.verify-btn {
+  background: linear-gradient(135deg, var(--purple), var(--hotpink));
+  border: none;
+  border-radius: 12px;
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: .88rem;
+  font-weight: 700;
+  padding: 12px 22px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, opacity .2s;
+  white-space: nowrap;
+}
+.verify-btn:hover { transform: scale(1.05); box-shadow: 0 6px 24px var(--glow-pk); }
+.verify-btn:active { transform: scale(.97); }
+.verify-btn:disabled { opacity: .4; cursor: default; transform: none; box-shadow: none; }
+
+.fb {
+  min-height: 18px;
+  font-size: .82rem;
+  font-weight: 600;
+  margin-top: 10px;
+  letter-spacing: .02em;
+}
+.fb.ok  { color: var(--success); }
+.fb.err { color: var(--error); }
+
+
+#reveal {
+  display: none;
+  margin-top: 40px;
+  text-align: center;
+}
+#reveal.show {
+  display: block;
+  animation: popIn .8s cubic-bezier(.175,.885,.32,1.275) both;
+}
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.75) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.reveal-inner {
+  background: linear-gradient(145deg, #1a0d2e, #0f0a1e);
+  border: 1.5px solid rgba(255,110,180,.4);
+  border-radius: 28px;
+  padding: 52px 36px;
+  box-shadow: 0 0 80px rgba(255,110,180,.2), 0 0 160px rgba(157,78,221,.15);
+  position: relative;
+  overflow: hidden;
+}
+.reveal-inner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(199,125,255,.12), transparent);
+  pointer-events: none;
+}
+
+.reveal-inner h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.8rem, 6vw, 2.6rem);
+  font-weight: 800;
+  background: linear-gradient(135deg, #fff, var(--lavender), var(--pink));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  margin-bottom: 12px;
+}
+
+.reveal-inner p {
+  color: var(--muted);
+  font-size: .95rem;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+
+.drive-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: linear-gradient(135deg, var(--purple), var(--hotpink));
+  color: #fff;
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 16px 36px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px var(--glow-pk);
+  transition: transform .25s, box-shadow .25s;
+  letter-spacing: .02em;
+  cursor: pointer;
+  border: none;
+}
+.drive-btn:hover { transform: scale(1.06) translateY(-2px); box-shadow: 0 16px 48px var(--glow-pk); }
+.drive-btn:active { transform: scale(.98); }
+
+.drive-icon { font-size: 1.3rem; }
+
+.skull-row { font-size: 2rem; margin-top: 32px; animation: wiggle 1.2s ease-in-out infinite; }
+@keyframes wiggle { 0%,100%{ transform:rotate(-6deg); } 50%{ transform:rotate(6deg); } }
+
+
+#cvc { position:fixed;inset:0;pointer-events:none;z-index:999; }
+
+
+.guide {
+  background: rgba(157,78,221,.06);
+  border: 1px dashed rgba(199,125,255,.25);
+  border-radius: 14px;
+  padding: 16px 20px;
+  font-size: .8rem;
+  color: var(--muted);
+  margin-bottom: 36px;
+  line-height: 1.75;
+}
+.guide strong { color: var(--lavender); }
+.guide code {
+  background: rgba(199,125,255,.12);
+  padding: 1px 7px;
+  border-radius: 6px;
+  font-size: .78rem;
+  color: var(--lavender);
+}
+</style>
+</head>
+<body>
+
+<div id="particles"></div>
+<canvas id="cvc"></canvas>
+
+<div class="wrap">
+
+
+  <header class="hero">
+    <div class="hero-badge">🖤 Misión secreta &nbsp;·&nbsp; Kuromi Edition</div>
+    <h1>
+      <span class="line1">¡Feliz Cumpleaños!</span>
+      <span class="line2">Frigi 🎀</span>
+    </h1>
+    <p class="hero-sub">
+      Hay un regalo escondido al final de este camino. Debes responder correctamente las 6 preguntas una por una y se te guiará hasta él. Todas las preguntas solo tienen respuestas numéricas 💜
+    </p>
+  </header>
+
+
+  <div class="img-slot">
+   
+   <img src="https://media.discordapp.net/attachments/890801135932280842/1500215609340858398/rwrw.png?ex=69f7a029&is=69f64ea9&hm=561952a3d4c7d4df195548bb30182ee2870f8c880712e5e8651fc1bfb8a6e42f&=&format=webp&quality=lossless" alt="hormiga">
+   
+  </div>
+
+  <div class="progress-area">
+    <div class="progress-header">
+      <span>Progreso</span>
+      <strong id="prog-txt">0 / 6</strong>
+    </div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+
+
+  <div class="cards" id="cards"></div>
+
+
+  <div id="reveal">
+    <div class="reveal-inner">
+      <h2>🎉 Excelente</h2>
+      <p>
+        Superaste cada pregunta Frigi. 🖤<br>
+        No sé si llegaste a darte cuenta que todas las respuestas estaban apretando F12 nomas pero bueno —<br>
+        Tu regalo se encuentra tras el siguiente PDF. 💜
+      </p>
+
+      
+      <a class="drive-btn" href="https://drive.google.com/file/d/1LbTnYnBPMJvL0AfAAuILmlwSKiw2Hqlx/view?usp=sharing" target="_blank" rel="noopener">
+        <span class="drive-icon">📂</span>
+        Abrir enlace
+      </a>
+
+      <div class="skull-row">🎀🖤💀🔮💜🎂</div>
+    </div>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+
+const PUZZLES = [
+  {
+    title: "Una sencilla para empezar",
+    sub: "Sobre Nami...",
+    q: `Desde el día en que naciste<br>
+        hasta el día en que fue lanzada Nami en el LOL.<br><br>
+        ¿Cuántos días pasaron?`,
+    h: "Pista 🖤: Usa todas las herramientas que te sean.",
+    a: [
+      "d6882ad218ce73f74cb4374b3c86b8e3d3eba4715f3d3350590e680a09e970e8", // 4608
+      "9074b372906e511569bb9b5a461995c12c940b3dacab96761b55d9891d96ce7b"  // 4608 dias
+    ]
+  },
+  {
+    title: "Palabra a palabra",
+    sub: "A buen oidor...",
+    q: `Dirígete al video Champion Spotlight de Nami.<br>
+        Entre los minutos 2:59 y 3:06.<br>
+        ¿Cuántas palabras se dijeron?`,
+    h: "Pista 🎀: La última palabra es Leona, cuentalas TODAS.",
+    a: [
+      "b7a56873cd771f2c446d369b649430b65a756ba278ff97ec81bb6f55b2e73569", // 25
+      "8a2ab2781859922933c952a6a718e5b62df852c6aae502ac0c93fb771dd571b3"  // 25 palabras
+    ]
+  },
+  {
+    title: "El código de los puntos",
+    sub: "Patrón numérico",
+    q: `Observa esta secuencia de números y encuentra el patrón:<br><br>
+        <code style="font-size:1.1rem;background:rgba(199,125,255,.1);padding:8px 14px;border-radius:10px;display:inline-block;letter-spacing:.12em;color:#c77dff">
+          3 &nbsp;–&nbsp; 1 &nbsp;–&nbsp; 13 &nbsp;–&nbsp; 9 &nbsp;–&nbsp; 12  &nbsp;–&nbsp; ?
+        </code><br><br>
+        ¿Cuál es el número que sigue?`,
+    h: "Pista 💀: Reemplaza los números por la cumpleañera.",
+    a: [
+      "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"  // 1
+    ]
+  },
+  {
+    title: "Dahlia",
+    sub: "Solo hay que revisar",
+    q: `Considerando el total de partidas clasificatorias jugadas,<br>
+        ¿Cuántas jugó Dahlia en el 2022?`,
+    h: "Pista 🔮: Usa páginas para ayudarte.",
+    a: [
+      "52efd2aad05d27e3eac3665b82f2bffa6da52351ce871c1c28e4ba69b40ea3e6", // 880
+      "b285a3420bd3ff5bfd63cd33c4faf6b5b2aedf5288f4c40a6ea70ed40b976742", // 880 rankeds
+      "7047601ca0734d773fecada766cc13e6feb27495f4a52cfec59c1c46addb65c7"  // 880 partidas
+    ]
+  },
+  {
+    title: "El segundo main...",
+    sub: "Sobre Arki",
+    q: `En cuanto a campeones más jugados,<br>
+        ¿Cuál es el segundo campeón más jugado por Arkiplex?`,
+    h: "Pista 🌙: No sé está en el perfil literal XD.",
+    a: [
+      "12db426556fc86021dc8ef81cdb1352adf09b66d6a31f7eeec8af965a0c21250"  // yasuo
+    ]
+  },
+  {
+    title: "El sello final de Kuromi",
+    sub: "El último desafío",
+    q: `En alguna carpeta del Drive de Amigurumis encontrarás el código.<br>
+        Que tu búsqueda sea afortunada:<br>`,
+    h: "Pista 💜: XD.",
+    a: [
+      "0325c76608b41edcb5d1ea8a68336583c2a39155fc574f869606b3870ef38761"  // código secreto
+    ]
+  }
+];
+
+
+let solved = 0;
+const total = PUZZLES.length;
+const state = new Array(total).fill(false);
+
+
+function norm(s) {
+  return s.trim().toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+
+function buildCards() {
+  const container = document.getElementById('cards');
+  container.innerHTML = '';
+  PUZZLES.forEach((p, i) => {
+    const card = document.createElement('div');
+    card.className = 'card' + (i === 0 ? ' open' : ' locked');
+    card.id = `card-${i}`;
+    card.style.animationDelay = (.4 + i * .1) + 's';
+    card.innerHTML = `
+      <div class="card-head" onclick="toggleCard(${i})">
+        <div class="step-badge" id="badge-${i}">${i + 1}</div>
+        <div class="card-title-wrap">
+          <h3>${p.title}</h3>
+          <p>${p.sub}</p>
+        </div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="card-body">
+        <div class="riddle-text">${p.q}</div>
+        <div class="hint">${p.h}</div>
+        <div class="input-row">
+          <input class="ans-input" id="inp-${i}" type="text" placeholder="Tu respuesta…" autocomplete="off" spellcheck="false">
+          <button class="verify-btn" id="btn-${i}" onclick="check(${i})">Verificar</button>
+        </div>
+        <div class="fb" id="fb-${i}"></div>
+      </div>
+    `;
+    container.appendChild(card);
+
+    // Enter key
+    setTimeout(() => {
+      document.getElementById(`inp-${i}`).addEventListener('keydown', e => {
+        if (e.key === 'Enter') check(i);
+      });
+    }, 0);
+  });
+}
+
+
+function toggleCard(i) {
+  const c = document.getElementById(`card-${i}`);
+  if (c.classList.contains('locked')) return;
+  c.classList.toggle('open');
+}
+
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(str)
+  );
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+
+async function check(i) {
+  if (state[i]) return;
+  const inp = document.getElementById(`inp-${i}`);
+  const fb  = document.getElementById(`fb-${i}`);
+  const val = norm(inp.value);
+  if (!val) return;
+
+  const hashed  = await sha256(val);
+  const correct = PUZZLES[i].a.includes(hashed);
+
+  if (correct) {
+    state[i] = true;
+    solved++;
+    inp.disabled = true;
+    document.getElementById(`btn-${i}`).disabled = true;
+    const card = document.getElementById(`card-${i}`);
+    card.classList.add('solved');
+    card.classList.remove('open');
+    const badge = document.getElementById(`badge-${i}`);
+    badge.textContent = '✓';
+    fb.textContent = '¡Correcto! 🖤 Siguiente acertijo desbloqueado…';
+    fb.className = 'fb ok';
+    updateProgress();
+
+    if (i + 1 < total) {
+      setTimeout(() => {
+        const next = document.getElementById(`card-${i + 1}`);
+        next.classList.remove('locked');
+        next.classList.add('open');
+        next.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 700);
+    } else {
+      setTimeout(showReveal, 900);
+    }
+  } else {
+    fb.textContent = '¡Casi! Inténtalo de nuevo 💀';
+    fb.className = 'fb err';
+    inp.classList.add('err');
+    setTimeout(() => inp.classList.remove('err'), 500);
+  }
+}
+
+
+function updateProgress() {
+  document.getElementById('fill').style.width = (solved / total * 100) + '%';
+  document.getElementById('prog-txt').textContent = `${solved} / ${total}`;
+}
+
+
+function showReveal() {
+  const el = document.getElementById('reveal');
+  el.classList.add('show');
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+  launchConfetti();
+}
+
+
+function launchConfetti() {
+  const canvas = document.getElementById('cvc');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const cols = ['#c77dff','#f472b6','#ff2d78','#a78bfa','#e879f9','#fff','#fbbf24'];
+  const pieces = Array.from({ length: 180 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * -canvas.height,
+    r: 4 + Math.random() * 7,
+    d: 1.5 + Math.random() * 3.5,
+    c: cols[Math.floor(Math.random() * cols.length)],
+    ta: 0, ts: .04 + Math.random() * .08
+  }));
+  let t = 0;
+  (function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    pieces.forEach(p => {
+      p.ta += p.ts; p.y += p.d;
+      if (p.y > canvas.height) { p.y = -8; p.x = Math.random() * canvas.width; }
+      const tilt = Math.sin(p.ta) * 12;
+      ctx.beginPath();
+      ctx.lineWidth = p.r; ctx.strokeStyle = p.c;
+      ctx.moveTo(p.x + tilt + p.r / 2, p.y);
+      ctx.lineTo(p.x + tilt, p.y + tilt + p.r / 2);
+      ctx.stroke();
+    });
+    if (++t < 420) requestAnimationFrame(draw);
+    else ctx.clearRect(0, 0, canvas.width, canvas.height);
+  })();
+}
+
+
+(function() {
+  const emojis = ['🖤','💀','🎀','🔮','💜','🌙','✨','⭐','🎂','🃏'];
+  const c = document.getElementById('particles');
+  for (let i = 0; i < 18; i++) {
+    const d = document.createElement('div');
+    d.className = 'pt';
+    d.textContent = emojis[i % emojis.length];
+    d.style.cssText = `
+      left: ${Math.random() * 96}%;
+      --fs: ${16 + Math.random() * 18}px;
+      --dur: ${10 + Math.random() * 14}s;
+      --delay: ${Math.random() * 10}s;
+    `;
+    c.appendChild(d);
+  }
+})();
+
+
+buildCards();
+</script>
+</body>
+</html>
